@@ -1,0 +1,64 @@
+﻿@model GerenciamentoDeTarefas.Models.Tarefa
+
+<div class="panel panel-primary" style="color:white; background-color:darkblue; font-size: 16px; text-align:center;">
+    <h2>@ViewBag.titulo</h2>
+</div>
+
+<h4 style="color:mediumblue; background-color:azure; font-size:16px;">@ViewBag.subTitulo</h4>
+
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+
+        <div class="col-md-8">
+
+            <form asp-action="CadastrarTarefas">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <input type="hidden" asp-for="ID" />
+
+                <div class="form-group">
+
+                    <label asp-for="Nome" class="control-label">Nome da Tarefa:</label>&nbsp;@ViewBag.nome
+                </div>
+
+                <div class="form-group">
+
+                    <label asp-for="Descricao" class="control-label">Descrição da Tarefa:</label>&nbsp;@ViewBag.descricao
+
+                </div>
+
+                <div class="form-group">
+
+                    <label asp-for="Gender" class="control-label">Status:</label>&nbsp;@ViewBag.status
+
+                </div>
+
+                <div class="form-group">
+
+                    <label asp-for="Data" class="control-label">Data:</label>&nbsp;@ViewBag.data
+
+                </div>
+
+                <div class="form-group col-md-3">
+
+                    @Html.ActionLink("Voltar p/ tela anterior", "Index", "Home", new { @Class = "btn btn-primary pull-right h2" })
+
+                </div>
+
+            </form>
+            
+        </div>
+
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

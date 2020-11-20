@@ -1,0 +1,16 @@
+Para ter acesso a página WEB seguir os passos:
+
+Instalar um Servidor IIS da Microsoft no seu Computador
+
+Ter instalado Microsoft Access 2013 para o mais atual
+
+Ter instalado Visual Studio 2017 para o mais atual com acesso a ferramenta APS.NET
+
+Mover a pasta Projeto para o diretório C:
+
+Seguir o caminho de navegação C:Projeto/GerenciamentoDeTarefas/GerenciamentoDeTarefas.sln
+
+Clique duplo para iniciar o arquivo: GerenciamentoDeTarefas.sln
+
+Apertar F5 do teclado para utilizar o sistema
+

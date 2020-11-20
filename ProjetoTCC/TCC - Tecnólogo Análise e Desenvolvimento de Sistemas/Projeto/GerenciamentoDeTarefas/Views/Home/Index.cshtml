@@ -1,0 +1,138 @@
+﻿@model GerenciamentoDeTarefas.Models.SearchUsuario
+@using PagedList.Mvc
+@using GerenciamentoDeTarefas.Models
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gerenciamento de Tarefas</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+
+    <!-- Adicionar o layout padrao -->
+    @{
+        Layout = "../Shared/_Layout.cshtml";
+    }
+    <div class="panel panel-primary" style="color:darkblue; background-color:azure; font-size: 16px; text-align:center;">       
+        @if (Session["sucesso"] != null)
+        {
+            <p>@Session["sucesso"]</p>
+
+            Session["sucesso"] = null;
+        }
+
+    </div>
+    <div id="main" class="container-fluid" style="margin-top: 50px">
+
+        <div id="top" class="row">
+            <div class="col-sm-3">
+                <h2>Localizar Tarefa</h2>
+            </div>
+
+            <form asp-controller="Movies" asp-action="Index" method="get">
+                <div class="col-sm-3">
+
+                    <div class="input-group h2">
+
+                        <input name="SearchString" class="form-control" id="search" type="text" placeholder="Informe parte ou nome completo..." size="350">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="submit">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+
+                    </div>
+
+                </div>
+            </form>
+                <div class="col-sm-3">
+                    @Html.ActionLink("Adicionar Tarefa", "CadastrarTarefas", "Home", new { @Class = "btn btn-primary pull-right h2" })
+                </div>
+            </div> <!-- /#top -->
+
+
+        <hr />
+        <div id="list" class="row">
+
+            <div class="table-responsive col-md-12">
+                <table class="table table-striped" cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayName("Nome")</th>
+                            <th>@Html.DisplayName("Descrição")</th>
+                            <th>@Html.DisplayName("Status")</th>
+                            <th>@Html.DisplayName("Data")</th>
+                            <th class="actions">@Html.DisplayName("Ações")</th>
+                        </tr>
+                    </thead>
+                    @if (Model.lista != null && Model.lista.Count >= 1)
+                    {
+                        <tbody>
+                            @foreach (Tarefa t in Model.lista)
+                            {
+                                <tr>
+                                    <td>@t.Nome</td>
+                                    <td>@t.Descricao</td>
+                                    <td>@t.Status</td>
+                                    <td>@t.Data.ToString("dd/MM/yyyy")</td>
+                                    <td class="actions">
+                                        @Html.ActionLink("Visualizar", "Visualizar", new { id = t.id }, new { @Class = "btn btn-success btn-xs" }) &nbsp;
+                                        @Html.ActionLink("Editar", "Editar", new { id = t.id }, new { @Class = "btn btn-warning btn-xs" }) &nbsp;
+                                        @Html.ActionLink("Excluir", "Excluir", new { id = t.id }, new { @Class = "btn btn-danger btn-xs" }) &nbsp;
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    }
+                </table>
+
+                @if (ViewBag.listaTarefas != null && ViewBag.listaTarefas.Count == 0)
+                {
+                    <p style="font-size:13px; color:red; background-color:bisque;">Atenção! Não existe nenhuma tarefa cadastrada na sua base de dados.</p>
+                }
+            </div>
+        </div> <!-- /#list -->
+
+        @if (Model.lista != null && Model.lista.Count >= 1)
+        {
+            <!--/panel-footer-->
+            <div class="panel-footer">
+                Pagina @Model.lista.PageNumber de @Model.lista.PageCount
+                @Html.PagedListPager(Model.lista, page => Url.Action("index", new { page = page }))
+            </div>
+            <!--/panel-footer-->
+        }
+
+    </div> <!-- /#main -->
+    <!-- Modal -->
+    <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalLabel">Excluir Item</h4>
+                </div>
+                <div class="modal-body">
+                    Deseja realmente excluir este item?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Sim</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">N&atilde;o</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>
+
